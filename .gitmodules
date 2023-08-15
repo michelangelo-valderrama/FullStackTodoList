@@ -1,0 +1,6 @@
+[submodule "client"]
+	path = client
+	url = git@github.com:michelangelo-valderrama/neoTodoListClient.git
+[submodule "server"]
+	path = server
+	url = git@github.com:michelangelo-valderrama/neoTodoListServer.git

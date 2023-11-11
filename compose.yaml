@@ -1,0 +1,66 @@
+services:
+  client:
+    build: ./client
+    image: michelangelovalderrama/neo-todo_client
+    networks:
+      - network
+    ports:
+      - 8080:80
+    container_name: todo-client
+    depends_on:
+      - server
+  server:
+    build: ./server
+    image: michelangelovalderrama/neo-todo_server
+    environment:
+      DATABASE_HOST: mongo-db
+    networks:
+      - network
+    ports:
+      - 3000:3000
+    container_name: todo-server
+    # depends_on:
+    #   - db-dev
+    # profiles:
+    #   - development
+    #   - production
+  # DEV
+  db-dev:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    container_name: todo-database-dev
+    networks:
+      network:
+        aliases:
+          - mongo-db
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db-dev
+    # profiles:
+    #   - development
+  # PROD
+  # db:
+  #   image: mongo
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: root
+  #   container_name: todo-database
+  #   networks:
+  #     network:
+  #       aliases:
+  #         - mongo-db
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mongodb:/data/db
+  #   profiles:
+  #     - production
+volumes:
+  mongodb:
+networks:
+  network:
